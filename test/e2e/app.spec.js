@@ -59,6 +59,15 @@ describe('End to End Tests', () => {
           });
        })
 
+       it('should contain <p> element with id output ', () => {
+        return pageObject
+         .evaluate(() => document.querySelector('p').id)
+         .then(pId => {
+          expect(pId).to.not.be.null;
+          expect(pId).to.equal('output');
+        });
+     })
+
      it('should contain <option> element with value 12 ', () => {
             return pageObject
           .evaluate(() => document.querySelector('option').value)
@@ -67,6 +76,7 @@ describe('End to End Tests', () => {
         expect(optionValue).to.equal('12');
             });
         })
+
 
  it('should correctly calculate mortgage', () =>
 pageObject
@@ -83,6 +93,35 @@ pageObject
 })
 ).timeout(6500);
 
+it('should correctly calculate mortgage', () =>
+pageObject
+.wait()
+.type('input[name=principal]', 100000)
+.type('input[name=interestRate]', 5.5)
+.type('input[name=loanTerm]', 30)
+.select('select[name=period]', 12)
+.click('button#calculate')
+.wait('#output')
+.evaluate(() => document.querySelector('#output').innerText)
+.then((outputText) => {
+	expect(outputText).to.equal('$567.79');
+})
+).timeout(6500);
 
+
+it('should correctly calculate mortgage', () =>
+pageObject
+.wait()
+.type('input[name=principal]', 750000)
+.type('input[name=interestRate]', 3.1)
+.type('input[name=loanTerm]', 30)
+.select('select[name=period]', 12)
+.click('button#calculate')
+.wait('#output')
+.evaluate(() => document.querySelector('#output').innerText)
+.then((outputText) => {
+	expect(outputText).to.equal('$3202.62');
+})
+).timeout(6500);
 
     })
